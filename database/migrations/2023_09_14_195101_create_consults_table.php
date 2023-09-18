@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('consults', function (Blueprint $table) {
             $table->id();
             $table->foreignId('animal_id')->constrained()->onDelete('cascade');
-            $table->foreignId('owner_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('treatment');
             $table->double('cost');
             $table->dateTime('treatment_start');

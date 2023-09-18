@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Htpp\Controllers\WorkerController;
-use App\Http\Controllers\WorkersController;
+use App\Http\Controllers\WorkerController;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +19,9 @@ use App\Http\Controllers\WorkersController;
 Route::get('/', function () {
     return redirect(route('dashboard'));
 });
+Route::get('/logout', function () {
+    return redirect(route('login'));
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -31,6 +34,15 @@ Route::middleware('auth')->group(function () {
 });
 
 // Route::resource('workers', WorkerController::class);
-Route::resource('workers', WorkersController::class);
+Route::resource('workers', WorkerController::class)->middleware('auth');
+
+Route::get('/mail', function () {
+    $name = 'maluco';
+    Mail::send(new App\Mail\ToOwners());
+});
 
 require __DIR__.'/auth.php';
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
